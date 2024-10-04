@@ -26,8 +26,8 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(5, 60px); /* 5 columns */
-    grid-template-rows: repeat(5, 60px);  /* 5 rows */
+    grid-template-columns: repeat(5, 60px);
+    grid-template-rows: repeat(5, 60px);
     gap: 5px;
 }
 
@@ -37,4 +37,29 @@ body {
     background-color: rgb(101, 176, 222);
     border: 2px solid white;
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cell img {
+    width: 50px;
+    height: 50px;
+    transition: transform 0.2s;
+}
+
+.cell img.dragging {
+    opacity: 0.5;
+}
+
+.cell.drag-over {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.dragged-ghost {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
 }
