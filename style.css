@@ -8,6 +8,8 @@ body {
     background-color: #282c34;
     color: white;
     font-family: Arial, sans-serif;
+    background: url("./Images/background.jpg") no-repeat center center fixed;
+    background-size: cover;
 }
 
 .moves-box {
@@ -32,7 +34,7 @@ body {
 .cell {
     width: 60px;
     height: 60px;
-    background-color: black;
+    background-color: rgb(101, 176, 222);
     border: 2px solid white;
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
