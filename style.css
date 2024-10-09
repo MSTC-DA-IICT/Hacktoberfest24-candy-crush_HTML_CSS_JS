@@ -34,12 +34,14 @@ body {
 .cell {
     width: 60px;
     height: 60px;
-    background-color: rgb(101, 176, 222);
+    background-color: rgba(101, 176, 222, 0.7);
     border: 2px solid white;
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .cell img {
@@ -48,8 +50,10 @@ body {
     transition: transform 0.2s;
 }
 
+/* Dragging styles */
 .cell img.dragging {
     opacity: 0.5;
+    transform: scale(1.1);
 }
 
 .cell.drag-over {
@@ -62,4 +66,88 @@ body {
     z-index: 1000;
     width: 50px;
     height: 50px;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 5px white);
+}
+
+/* Remove animation */
+@keyframes remove {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.cell img.match {
+    animation: remove 0.3s ease-out forwards;
+}
+
+/* Fall animation */
+@keyframes fall {
+    0% {
+        transform: translateY(-60px) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0) rotate(360deg);
+        opacity: 1;
+    }
+}
+
+.cell img.new-candy {
+    animation: fall 0.5s ease-out;
+}
+
+/* Swap animation */
+@keyframes swap-right {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(60px); }
+}
+
+@keyframes swap-left {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-60px); }
+}
+
+@keyframes swap-up {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-60px); }
+}
+
+@keyframes swap-down {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(60px); }
+}
+
+.cell img.swap-right {
+    animation: swap-right 0.3s ease-in-out;
+}
+
+.cell img.swap-left {
+    animation: swap-left 0.3s ease-in-out;
+}
+
+.cell img.swap-up {
+    animation: swap-up 0.3s ease-in-out;
+}
+
+.cell img.swap-down {
+    animation: swap-down 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.cell img:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+    filter: brightness(1.2);
 }
