@@ -1,6 +1,10 @@
 var candies = ["Blue", "Green", "Orange", "Purple", "Red", "Yellow"];
 let draggedCandy = null;
+let draggedCandyIndex;
+let replacingCandy;
+let replacingCandyIndex;
 let draggedGhost = null;
+const width = 5;
 
 function randomCandy() {
   return candies[Math.floor(Math.random() * candies.length)];
@@ -10,13 +14,15 @@ function generateCandy() {
   var cells = document.querySelectorAll(".cell");
 
   cells.forEach(function (cell, index) {
+    // console.log(index);
+
     var img = document.createElement("img");
     img.src = "./Images/" + randomCandy() + ".png";
-    img.setAttribute("data-index", index);
+    img.setAttribute("id", index);
     img.draggable = true;
     cell.appendChild(img);
 
-    // Add event listeners
+    // Add event listeners for drag-and-drop
     img.addEventListener("dragstart", onDragStart);
     img.addEventListener("dragend", onDragEnd);
     cell.addEventListener("dragover", onDragOver);
@@ -28,79 +34,61 @@ function generateCandy() {
 
 function onDragStart(event) {
   draggedCandy = event.target;
-  event.dataTransfer.setData(
-    "text/plain",
-    event.target.getAttribute("data-index")
-  );
+  draggedCandyIndex = parseInt(draggedCandy.id);
 
-  // Create ghost image
-  draggedGhost = event.target.cloneNode(true);
-  draggedGhost.classList.add("dragged-ghost");
-  document.body.appendChild(draggedGhost);
-  event.dataTransfer.setDragImage(draggedGhost, 30, 30);
+  // // Create ghost image
+  // draggedGhost = event.target.cloneNode(true);
+  // draggedGhost.classList.add("dragged-ghost");
+  // document.body.appendChild(draggedGhost);
+  // event.dataTransfer.setDragImage(draggedGhost, 30, 30);
 
-  setTimeout(() => event.target.classList.add("dragging"), 0);
-}
-
-function onDragEnd(event) {
-  event.target.classList.remove("dragging");
-  if (draggedGhost) {
-    draggedGhost.remove();
-    draggedGhost = null;
-  }
+  // setTimeout(() => event.target.classList.add("dragging"), 0);
 }
 
 function onDragOver(event) {
-  event.preventDefault();
+  event.preventDefault(); // Necessary for drag-and-drop to work
 }
 
 function onDragEnter(event) {
-  if (event.target.classList.contains("cell")) {
-    event.target.classList.add("drag-over");
-  }
+  event.preventDefault(); // Necessary for drag-and-drop to work
 }
 
-function onDragLeave(event) {
-  if (event.target.classList.contains("cell")) {
-    event.target.classList.remove("drag-over");
-  }
-}
+function onDragLeave() {}
 
 function onDrop(event) {
-  event.preventDefault();
-  const cell = event.target.classList.contains("cell")
-    ? event.target
-    : event.target.parentElement;
-  cell.classList.remove("drag-over");
+  //storing the current candy src and id
+  let tempReplacingCandyStorage = event.target.src;
 
-  const fromIndex = parseInt(event.dataTransfer.getData("text"));
-  const toIndex = parseInt(cell.firstChild.getAttribute("data-index"));
+  replacingCandy = event.target;
+  replacingCandyIndex = parseInt(replacingCandy.id);
 
-  if (areAdjacent(fromIndex, toIndex)) {
-    swapCandies(draggedCandy, cell.firstChild);
+  //swapping of the dragged and current candy tiles
+  replacingCandy.src = draggedCandy.src;
+  draggedCandy.src = tempReplacingCandyStorage;
+}
+
+function onDragEnd() {
+  // valid adjacent moves (left, right, up, down)
+  let validMoves = [
+    draggedCandyIndex + 1,
+    draggedCandyIndex + width,
+    draggedCandyIndex - 1,
+    draggedCandyIndex - width,
+  ];
+
+  let validMove = validMoves.includes(replacingCandyIndex);
+  let temp = replacingCandy.src;
+
+  // If the move is valid, clear the replacingCandyIndex and update the movesCount
+  if (replacingCandyIndex && validMove) {
+    replacingCandyIndex = null;
     updateMovesRemaining();
+  } else if (replacingCandyIndex && !validMove) {
+    replacingCandy.src = draggedCandy.src;
+    draggedCandy.src = temp;
+  } else {
+    draggedCandy.src = draggedCandy.src;
   }
-}
-
-function areAdjacent(index1, index2) {
-  const row1 = Math.floor(index1 / 5);
-  const col1 = index1 % 5;
-  const row2 = Math.floor(index2 / 5);
-  const col2 = index2 % 5;
-
-  return Math.abs(row1 - row2) + Math.abs(col1 - col2) === 1;
-}
-
-function swapCandies(candy1, candy2) {
-  const tempSrc = candy1.src;
-  const tempIndex = candy1.getAttribute("data-index");
-
-  candy1.src = candy2.src;
-  candy1.setAttribute("data-index", candy2.getAttribute("data-index"));
-
-  candy2.src = tempSrc;
-  candy2.setAttribute("data-index", tempIndex);
-  //shihii
 }
 
 function updateMovesRemaining() {
@@ -111,7 +99,7 @@ function updateMovesRemaining() {
 
   if (moves === 0) {
     alert("Game Over!");
-    // You can add more game-over logic here
+    // Additional game-over logic here if needed
   }
 }
 
