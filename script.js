@@ -100,6 +100,7 @@ function swapCandies(candy1, candy2) {
 
   candy2.src = tempSrc;
   candy2.setAttribute("data-index", tempIndex);
+  //shihii
 }
 
 function updateMovesRemaining() {
