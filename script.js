@@ -5,14 +5,14 @@ let replacingCandy;
 let replacingCandyIndex;
 let draggedGhost = null;
 const width = 5;
-
+let score = 0;
+var cells = document.querySelectorAll(".cell");
+let scoreDisplay = document.querySelector("#scoreDisplay");
 function randomCandy() {
   return candies[Math.floor(Math.random() * candies.length)];
 }
 
 function generateCandy() {
-  var cells = document.querySelectorAll(".cell");
-
   cells.forEach(function (cell, index) {
     // console.log(index);
 
@@ -30,6 +30,7 @@ function generateCandy() {
     cell.addEventListener("dragleave", onDragLeave);
     cell.addEventListener("drop", onDrop);
   });
+  console.log(cells);
 }
 
 function onDragStart(event) {
@@ -103,4 +104,103 @@ function updateMovesRemaining() {
   }
 }
 
+function checkRowForThree() {
+  for (let i = 0; i < width * width - 2; i++) {
+    const rowOfThree = [i, i + 1, i + 2];
+    const decidedImage = cells[i].querySelector("img").src;
+    const isBlank = decidedImage === "";
+
+    // Check if the row is within the same row
+    const notInLastColumn = i % width < width - 2;
+
+    if (
+      notInLastColumn &&
+      rowOfThree.every((index) => {
+        const imgSrc = cells[index].querySelector("img").src;
+        return imgSrc === decidedImage && !isBlank; // Return the comparison result
+      })
+    ) {
+      score += 3;
+
+      rowOfThree.forEach(
+        (index) => (cells[index].querySelector("img").src = "")
+      );
+    }
+  }
+}
+
+function checkRowForFour() {
+  for (let i = 0; i < width * width - 3; i++) {
+    // Adjusted the limit
+    const rowOfFour = [i, i + 1, i + 2, i + 3];
+    const decidedImage = cells[i].querySelector("img").src;
+    const isBlank = decidedImage === "";
+
+    // Check if the row is within the same row
+    const notInLastColumn = i % width < width - 3;
+
+    if (
+      notInLastColumn &&
+      rowOfFour.every((index) => {
+        const imgSrc = cells[index].querySelector("img").src;
+        return imgSrc === decidedImage && !isBlank; // Return the comparison result
+      })
+    ) {
+      score += 4;
+
+      rowOfFour.forEach(
+        (index) => (cells[index].querySelector("img").src = "")
+      );
+    }
+  }
+}
+
+function checkColumnForThree() {
+  for (let i = 0; i < width * (width - 2); i++) {
+    const columnOfThree = [i, i + width, i + width * 2];
+    const decidedImage = cells[i].querySelector("img").src;
+    const isBlank = decidedImage === "";
+
+    if (
+      !isBlank && // Check if the image is not blank
+      columnOfThree.every(
+        (index) => cells[index].querySelector("img").src === decidedImage
+      )
+    ) {
+      score += 3;
+
+      columnOfThree.forEach(
+        (index) => (cells[index].querySelector("img").src = "")
+      );
+    }
+  }
+}
+
+function checkColumnForFour() {
+  for (let i = 0; i < width * (width - 3); i++) {
+    const columnOfThree = [i, i + width, i + width * 2, i + width * 3];
+    const decidedImage = cells[i].querySelector("img").src;
+    const isBlank = decidedImage === "";
+
+    if (
+      !isBlank && // Check if the image is not blank
+      columnOfThree.every(
+        (index) => cells[index].querySelector("img").src === decidedImage
+      )
+    ) {
+      score += 4;
+
+      columnOfThree.forEach(
+        (index) => (cells[index].querySelector("img").src = "")
+      );
+    }
+  }
+}
+
 window.onload = generateCandy;
+window.setInterval(() => {
+  checkRowForFour();
+  checkColumnForFour();
+  checkRowForThree();
+  checkColumnForThree();
+}, 100);
