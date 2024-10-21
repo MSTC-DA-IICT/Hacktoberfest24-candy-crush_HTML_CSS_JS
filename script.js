@@ -121,7 +121,6 @@ function checkRowForThree() {
       })
     ) {
       score += 3;
-
       rowOfThree.forEach(
         (index) => (cells[index].querySelector("img").src = "")
       );
@@ -147,7 +146,6 @@ function checkRowForFour() {
       })
     ) {
       score += 4;
-
       rowOfFour.forEach(
         (index) => (cells[index].querySelector("img").src = "")
       );
@@ -168,7 +166,6 @@ function checkColumnForThree() {
       )
     ) {
       score += 3;
-
       columnOfThree.forEach(
         (index) => (cells[index].querySelector("img").src = "")
       );
@@ -189,7 +186,6 @@ function checkColumnForFour() {
       )
     ) {
       score += 4;
-
       columnOfThree.forEach(
         (index) => (cells[index].querySelector("img").src = "")
       );
