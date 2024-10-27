@@ -115,6 +115,7 @@ function checkRowForThree() {
     ) {
       score += 3;
 
+
       // Remove the <img> tag from each matched cell
       rowOfThree.forEach((index) => {
         const imgElement = cells[index].querySelector("img");
@@ -122,6 +123,7 @@ function checkRowForThree() {
           cells[index].removeChild(imgElement); // Remove the img element entirely
         }
       });
+
     }
   }
 }
@@ -146,6 +148,7 @@ function checkRowForFour() {
     ) {
       score += 4;
 
+
       // Remove the <img> tag from each matched cell
       rowOfFour.forEach((index) => {
         const imgElement = cells[index].querySelector("img");
@@ -153,6 +156,7 @@ function checkRowForFour() {
           cells[index].removeChild(imgElement); // Remove the img element entirely
         }
       });
+
     }
   }
 }
@@ -174,6 +178,7 @@ function checkColumnForThree() {
     ) {
       score += 3;
 
+
       // Remove the <img> tag from each matched cell
       columnOfThree.forEach((index) => {
         const imgElement = cells[index].querySelector("img");
@@ -181,6 +186,7 @@ function checkColumnForThree() {
           cells[index].removeChild(imgElement); // Remove the img element entirely
         }
       });
+
     }
   }
 }
@@ -201,6 +207,7 @@ function checkColumnForFour() {
       })
     ) {
       score += 4;
+
 
       // Remove the <img> tag from each matched cell
       columnOfFour.forEach((index) => {
@@ -248,6 +255,7 @@ function dropCandies() {
 
       // Append the new candy image to the cell
       cells[i].appendChild(img);
+
     }
   }
 }
