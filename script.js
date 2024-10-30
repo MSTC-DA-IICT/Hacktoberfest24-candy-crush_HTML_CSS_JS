@@ -76,21 +76,30 @@ function onDragEnd() {
     replacingCandy.src = draggedCandy.src;
     draggedCandy.src = temp;
   }
+  updateMovesRemaining();
   // Clear drag references
   draggedCandy = null;
   replacingCandy = null;
 }
 
-//Score updation Logic
+//moves  updation Logic
 function updateMovesRemaining() {
   const movesElement = document.getElementById("movesRemaining");
   let moves = parseInt(movesElement.textContent);
   moves--;
   movesElement.textContent = moves;
 
-  if (moves === 0) {
+  if (moves <= 0) {
     alert("Game Over!");
+    setTimeout(() => {
+      location.reload(); // Reload the game after a short delay
+    }, 1000);
   }
+}
+
+//score updation logic
+function updateScoreDisplay() {
+  scoreDisplay.textContent = score;
 }
 
 //Candy Matching and Removal logic
@@ -114,8 +123,7 @@ function checkRowForThree() {
       })
     ) {
       score += 3;
-
-
+      updateScoreDisplay();
       // Remove the <img> tag from each matched cell
       rowOfThree.forEach((index) => {
         const imgElement = cells[index].querySelector("img");
@@ -123,7 +131,6 @@ function checkRowForThree() {
           cells[index].removeChild(imgElement); // Remove the img element entirely
         }
       });
-
     }
   }
 }
@@ -147,8 +154,7 @@ function checkRowForFour() {
       })
     ) {
       score += 4;
-
-
+      updateScoreDisplay();
       // Remove the <img> tag from each matched cell
       rowOfFour.forEach((index) => {
         const imgElement = cells[index].querySelector("img");
@@ -156,7 +162,6 @@ function checkRowForFour() {
           cells[index].removeChild(imgElement); // Remove the img element entirely
         }
       });
-
     }
   }
 }
@@ -177,8 +182,7 @@ function checkColumnForThree() {
       })
     ) {
       score += 3;
-
-
+      updateScoreDisplay();
       // Remove the <img> tag from each matched cell
       columnOfThree.forEach((index) => {
         const imgElement = cells[index].querySelector("img");
@@ -186,7 +190,6 @@ function checkColumnForThree() {
           cells[index].removeChild(imgElement); // Remove the img element entirely
         }
       });
-
     }
   }
 }
@@ -207,8 +210,7 @@ function checkColumnForFour() {
       })
     ) {
       score += 4;
-
-
+      updateScoreDisplay();
       // Remove the <img> tag from each matched cell
       columnOfFour.forEach((index) => {
         const imgElement = cells[index].querySelector("img");
@@ -255,7 +257,6 @@ function dropCandies() {
 
       // Append the new candy image to the cell
       cells[i].appendChild(img);
-
     }
   }
 }
