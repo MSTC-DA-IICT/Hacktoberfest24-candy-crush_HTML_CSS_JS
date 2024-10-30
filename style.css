@@ -1,65 +1,66 @@
 body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #282c34;
-    color: white;
-    font-family: Arial, sans-serif;
-    background: url("./Images/background.jpg") no-repeat center center fixed;
-    background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #282c34;
+  color: white;
+  font-family: Arial, sans-serif;
+  background: url("./Images/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  font-family: "DynaPuff";
+}
+.logo {
+  position: absolute;
+  top: -30px;
+  right: -100px;
+  width: fit-content;
+  height: fit-content;
 }
 
 .moves-box {
-    font-size: 1.5rem;
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 10px;
-    border: 2px solid #fff;
-    margin-bottom: 20px;
-    text-align: center;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  font-size: 1.5rem;
+  background-color: rgb(75, 229, 33);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 5px solid rgb(68, 211, 28);
+  border-style: inset;
+  margin-bottom: 20px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .grid {
-    display: grid;
-    grid-template-columns: repeat(5, 60px);
-    grid-template-rows: repeat(5, 60px);
-    gap: 5px;
+  display: grid;
+  grid-template-columns: repeat(5, 60px);
+  grid-template-rows: repeat(5, 60px);
+  gap: 5px;
 }
 
 .cell {
-    width: 60px;
-    height: 60px;
-    background-color: rgb(101, 176, 222);
-    border: 2px solid white;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 60px;
+  height: 60px;
+  background-color: rgb(101, 176, 222);
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cell img {
-    width: 50px;
-    height: 50px;
-    transition: transform 0.2s;
+  width: 50px;
+  height: 50px;
+  transition: transform 0.2s;
 }
 
 .cell img.dragging {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 .cell.drag-over {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-.dragged-ghost {
-    position: absolute;
-    pointer-events: none;
-    z-index: 1000;
-    width: 50px;
-    height: 50px;
+  background-color: rgba(255, 255, 255, 0.3);
 }
